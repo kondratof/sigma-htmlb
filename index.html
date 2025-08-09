@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#main" class="active">Главная</a></li>
+            <li><a href="#menu2">Меню 2</a></li>
+            <li><a href="#menu3">Меню 3</a></li>
+            <li><a href="profile.html">Профиль</a></li>
+        </ul>
+    </nav>
+
+    <section id="main">
+        <div class="container">
+            <h1 id="counter">0</h1>
+            <button id="tapButton">KON</button>
+        </div>
+    </section>
+
+    <script>
+        // Загружаем значение из localStorage при загрузке страницы
+        window.onload = function() {
+            let count = parseInt(localStorage.getItem('coinCount')) || 0;
+            document.getElementById('counter').textContent = count.toString();
+
+            // Обновление данных пользователя на сервере
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                fetch('/update-coin-count', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: currentUser.name, coinCount: count })
+                });
+            }
+        };
+
+        // Обработчик клика на кнопку
+        const tapButton = document.getElementById('tapButton');
+        tapButton.addEventListener('click', () => {
+            let count = parseInt(document.getElementById('counter').textContent);
+            count++;
+            document.getElementById('counter').textContent = count.toString();
+            localStorage.setItem('coinCount', count);
+
+            // Обновление данных пользователя на сервере
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                fetch('/update-coin-count', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: currentUser.name, coinCount: count })
+                });
+            }
+        });
+    </script>
+</body>
+</html>

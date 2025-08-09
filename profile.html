@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="#menu2">Меню 2</a></li>
+            <li><a href="#menu3">Меню 3</a></li>
+            <li><a href="#" class="active">Профиль</a></li>
+        </ul>
+    </nav>
+
+    <section id="profile">
+        <div class="container-profile">
+            <p>Пользователь: <span id="userName">Гость</span></p>
+            <p>Баланс: <span id="balanceCounter">0</span> рублей</p>
+        </div>
+    </section>
+
+    <script>
+        window.onload = function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('balanceCounter').textContent = currentUser.coinCount;
+            }
+        };
+    </script>
+</body>
+</html>
